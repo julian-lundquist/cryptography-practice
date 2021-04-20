@@ -52,7 +52,7 @@ class Attack:
             #     print()
             new_line_count += 1
 
-    def calculate_matches(self):
+    def calculate_potential_matches(self):
         for cipher_char in self.alphabet:
             map = {}
             for plain_char in self.alphabet:
@@ -91,7 +91,7 @@ attack = Attack()
 attack.calculate_freq(cipher)
 # attack.print_freq()
 
-attack.calculate_matches()
+attack.calculate_potential_matches()
 
 # print()
 # for c in attack.mappings:
