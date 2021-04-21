@@ -1,5 +1,6 @@
 import random
 
+
 class KeyStream:
     def __init__(self, key=1):
         self.next = key
@@ -22,16 +23,29 @@ def trasmit(cipher, chance):
         b.append(c)
     return bytes(b)
 
+def modification(cipher):
+    mod = [0] * len(cipher)
+    mod[10] = ord(' ') ^ ord('$')
+    mod[11] = ord(' ') ^ ord('1')
+    mod[12] = ord(' ') ^ ord('0')
+    mod[13] = ord('$') ^ ord('0')
+    mod[14] = ord('1') ^ ord('0')
+
+    return bytes([mod[i] ^ cipher[i] for i in range(len(cipher))])
+
 # can change the key value by inputing in the parameters in KeyStream
 key = KeyStream(10)
-message = "Hello, World!".encode()
+message = "Send Bob:    $10".encode()
 cipher = encrypt(key, message)
 print(cipher)
+print(message)
 
-cipher = trasmit(cipher, 5)
-print(cipher)
+# cipher = trasmit(cipher, 5)
+# print(cipher)
+
+# this is where the attacker functionallity is
+cipher = modification(cipher)
 
 key = KeyStream(10)
 message = encrypt(key, cipher)
-
 print(message)
