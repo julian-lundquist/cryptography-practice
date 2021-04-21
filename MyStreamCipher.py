@@ -33,6 +33,13 @@ def modification(cipher):
 
     return bytes([mod[i] ^ cipher[i] for i in range(len(cipher))])
 
+def get_key(message, cipher):
+    return bytes([message[i] ^ cipher[i] for i in range(len(cipher))])
+
+def crack(key_stream, cipher):
+    length = min(len(key_stream), len(cipher))
+    return bytes([key_stream[i] ^ cipher[i] for i in range(length)])
+
 # can change the key value by inputing in the parameters in KeyStream
 key = KeyStream(10)
 message = "Send Bob:    $10".encode()
@@ -49,3 +56,25 @@ cipher = modification(cipher)
 key = KeyStream(10)
 message = encrypt(key, cipher)
 print(message)
+
+# eve secret message
+eves_message = "This Eves is the secret message.".encode()
+key = KeyStream(10)
+cipher = encrypt(key, eves_message)
+eves_key_stream = get_key(eves_message, cipher)
+# print(crack(eves_key_stream, cipher))
+
+# Alice message
+message = "This is Bobs secret message.".encode()
+key = KeyStream(10)
+cipher = encrypt(key, message)
+print(cipher)
+
+# Bob message
+key = KeyStream(10)
+message = encrypt(key, cipher)
+print(message)
+
+# Eve crack message
+print("Cracked Message: ")
+print(crack(eves_key_stream, cipher))
