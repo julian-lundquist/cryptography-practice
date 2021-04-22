@@ -1,17 +1,6 @@
 from pyDes import *
 import random
 
-def modify(cipher):
-    mod = [0]*len(cipher)
-    mod[8] = 1
-    # mod[10] = ord(' ') ^ ord('$')
-    # mod[11] = ord(' ') ^ ord('1')
-    # mod[12] = ord(' ') ^ ord('0')
-    # mod[13] = ord('$') ^ ord('0')
-    # mod[14] = ord('1') ^ ord('0')
-    return bytes([mod[i] ^ cipher[i] for i in range(len(cipher))])
-
-
 message = "01234567"
 
 key_11 = random.randrange(0, 256)
@@ -56,9 +45,3 @@ for i in range(256):
         k2 = des(key_2, ECB, iv, pad=None, padmode=PAD_PKCS5)
         print("Eve breaking double DES: ", k2.decrypt(k1.decrypt(cipher)))
         break
-
-# print("Length of plain text: ", len(message))
-# print("Length of cipher text: ", len(cipher))
-# print("Encrypted: ", cipher[0:8])
-# print("Encrypted: ", cipher[8:16])
-# print("Encrypted: ", cipher[16:])
