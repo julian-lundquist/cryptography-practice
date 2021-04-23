@@ -1,4 +1,10 @@
 import hashlib
+
+def modify(m):
+    l = list(m)
+    l[0] = l[0] ^ 1
+    return bytes(l)
+
 # These are Alice's keys
 # Public Key (e,n): 7 123463
 # Secret Key (d): 2923
@@ -22,6 +28,10 @@ sign = h**d % n
 
 # Step 3: Send message with signature to Bob
 print(message, sign)
+
+# This is Eve being bad and modifying the message
+message = modify(message)
+print(message)
 
 # This is Bob verifying the message signature and decrypting message
 # Step 1: This is Bob verifying the message signature
