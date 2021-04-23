@@ -28,6 +28,10 @@ def get_d(e, lambda_n):
             return d
     return False
 
+def factor(n):
+    for p in range(2, n):
+        if n % p == 0:
+            return p, n//p
 
 # Key generation done by Alice (secret)
 #Step 1: Generate 2 distinct prime numbers
@@ -64,3 +68,17 @@ print("Bob sends: ", c)
 # This is Alice decrypting the cipher
 m = c**d % n
 print("Decrypted Message: ", m)
+
+# This is Evil Eve
+print("Eve sees the following:")
+print("Public Key (e,n):", e, n)
+print("Encrypted Cipher (c):", c)
+p, q = factor(n)
+print("Eve Factors: ", p, q)
+lambda_n = lcm(p-1, q-1)
+print("Eve Lambda n: ", lambda_n)
+d = get_d(e, lambda_n)
+print("Eve Secret exponent: ", d)
+
+m = c**d % n
+print("Eve Decrypted Message: ", m)
